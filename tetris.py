@@ -63,7 +63,6 @@ pygame.display.set_caption("Tetris")
 run = True
 
 clock = pygame.time.Clock()
-existing_pieces = []
 
 def intersection(lst1, lst2):
     lst3 = [value for value in lst1 if value in lst2]
@@ -163,14 +162,13 @@ def generate_new_piece():
     new_piece = random.choice(shapes)
     return new_piece
 
-
-
+existing_pieces = []
+score = 0
 time_speed = 5
-
 one_step = 20
 
 def get_new_line():
-    line = Line([60, -20, 20, 20], [80, -20, 20, 20], [100, -20, 20, 20], [120, -20, 20, 20], "horizontal")
+    line = Line([60, -40, 20, 20], [80, -40, 20, 20], [100, -40, 20, 20], [120, -40, 20, 20], "horizontal")
     return line
 
 def get_new_square():
@@ -198,9 +196,13 @@ square = get_new_square()
 new_piece = generate_new_piece()
 while run:
     keys = pygame.key.get_pressed()
-    clock.tick(time_speed)
+    clock.tick(time_speed + 2)
 
-    new_piece = "T shape"
+    for piece in existing_pieces:
+        if piece[1] == 0:
+            run = False
+
+
 
     if new_piece == "Square":
 
@@ -265,7 +267,11 @@ while run:
                     square.tr[0] += one_step
 
     elif new_piece == "Line":
-        index = 0
+
+        no_left = False
+        no_right = False
+        no_down = False
+        no_rotate = False
         for item in existing_pieces:
             if line.one[1] + one_step == item[1]  and line.one[0] == item[0]:
 
@@ -276,7 +282,7 @@ while run:
                 existing_pieces.append(line.four)
 
                 line = get_new_line()
-                index = 1
+                no_down = True
                 break
             elif line.four[1] + one_step == item[1] and line.four[0] == item[0]:
                 new_piece = generate_new_piece()
@@ -286,7 +292,7 @@ while run:
                 existing_pieces.append(line.four)
 
                 line = get_new_line()
-                index = 1
+                no_down = True
                 break
             elif line.three[1] + one_step == item[1] and line.three[0] == item[0]:
                 new_piece = generate_new_piece()
@@ -294,7 +300,7 @@ while run:
                 existing_pieces.append(line.two)
                 existing_pieces.append(line.three)
                 existing_pieces.append(line.four)
-                index = 1
+                no_down = True
                 line = get_new_line()
                 break
             elif line.two[1] + one_step == item[1] and line.two[0] == item[0]:
@@ -305,26 +311,26 @@ while run:
                 existing_pieces.append(line.four)
 
                 line = get_new_line()
-                index = 1
+                no_down = True
                 break
             # check to the down left
             elif item[0] == line.one[0] - one_step and item[1] == line.one[1] + one_step:
-                index = 2
+                no_left = True
             # check to the down right
             elif item[0] == line.one[0] + one_step and item[1] == line.one[1] + one_step:
-                index = 3
+                no_right = True
             elif item[0] == line.four[0] + one_step and item[1] == line.four[1] + one_step:
-                index = 3
+                no_right = True
             # check if can rotate on the left side
             elif item[0] == line.two[0] - one_step and item[1] == line.two[1]:
-                index = 4
+                no_rotate = True
             # check if can rotate on the right side
             elif item[0] == line.two[0] + one_step and item[1] == line.two[1]:
-                index = 4
+                no_rotate = True
             elif item[0] == line.two[0] + one_step * 2 and item[1] == line.two[1]:
-                index = 4
+                no_rotate = True
 
-        if index != 1:
+        if no_down == False:
             if line.facing == "horizontal":
                 if line.one[1] < screen_size[1] - line.one[3] or line.four[1] < screen_size[1] - line.one[3]:
                     line.one[1] += one_step
@@ -357,13 +363,13 @@ while run:
 
             if event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_LEFT and line.one[1] < screen_size[1] - line.one[2] and line.one[0] > 0 and index != 2:
+                if event.key == pygame.K_LEFT and line.one[1] < screen_size[1] - line.one[2] and line.one[0] > 0 and no_left == False:
                     line.one[0] -= one_step
                     line.two[0] -= one_step
                     line.three[0] -= one_step
                     line.four[0] -= one_step
 
-                if event.key == pygame.K_RIGHT and line.four[1] < screen_size[1] - line.four[2] and line.four[0] < screen_size[0] - one_step and index != 3:
+                if event.key == pygame.K_RIGHT and line.four[1] < screen_size[1] - line.four[2] and line.four[0] < screen_size[0] - one_step and no_right == False:
                     line.one[0] += one_step
                     line.two[0] += one_step
                     line.three[0] += one_step
@@ -380,7 +386,7 @@ while run:
                         line.three[0] -= one_step
                         line.four[0] -= one_step*2
 
-                elif event.key == pygame.K_SPACE and line.facing ==  "vertical" and line.one[0] < screen_size[0] - one_step*2 and line.one[0] > one_step*2 and index !=4 and index != 2 and index != 3:
+                elif event.key == pygame.K_SPACE and line.facing ==  "vertical" and line.one[0] < screen_size[0] - one_step*2 and line.one[0] > one_step*2 and no_rotate == False:
 
                         line.facing = "horizontal"
                         line.one[0] -= one_step
@@ -851,17 +857,17 @@ while run:
         # check for going out of bounds
 
         if t_shape.facing == "vertical_right":
-            if t_shape.tail[0] > screen_size[0] - one_step:
+            if t_shape.tail[0] >= screen_size[0] - one_step:
                 no_right = True
             elif t_shape.three[0] < one_step:
                 no_left = True
         elif t_shape.facing == "vertical_left":
             if t_shape.tail[0] < one_step:
                 no_left = True
-            elif t_shape.three[0] > screen_size[0] - one_step:
+            elif t_shape.three[0] >= screen_size[0] - one_step:
                 no_right = True
         elif t_shape.facing == "horizontal_down":
-            if t_shape.one[0] > screen_size[0] - one_step:
+            if t_shape.one[0] >= screen_size[0] - one_step:
                 no_right = True
             elif t_shape.three[0] < one_step:
                 no_left = True
@@ -919,9 +925,6 @@ while run:
                 run = False
 
             if event.type == pygame.KEYDOWN:
-                print(no_right)
-                print("T: ", t_shape.three[0])
-                print(t_shape.facing)
 
                 if event.key == pygame.K_LEFT and no_left == False :
                     t_shape.one[0] -= one_step
@@ -938,31 +941,26 @@ while run:
                 if event.key == pygame.K_SPACE and t_shape.facing == "horizontal_up" and no_rotate == False:
 
                         t_shape.facing = "vertical_right"
-                        t_shape.one[1] -= one_step
+                        t_shape.one[1] -= one_step*2
                         t_shape.two[0] -= one_step
+                        t_shape.two[1] -= one_step
                         t_shape.three[0] -= one_step*2
-                        t_shape.three[1] += one_step
-                        t_shape.tail[0] -= one_step
-                        t_shape.tail[1] += one_step*2
 
                 elif event.key == pygame.K_SPACE and t_shape.facing ==  "vertical_left" and t_shape.tail[0] > one_step and no_rotate == False:
 
                         t_shape.facing = "horizontal_up"
                         t_shape.one[0] -= one_step*2
-                        t_shape.one[1] -= one_step
                         t_shape.two[0] -= one_step
-                        t_shape.three[1] += one_step
-                        t_shape.tail[0] += one_step
+                        t_shape.two[1] += one_step
+                        t_shape.three[1] += one_step*2
 
-                elif event.key == pygame.K_SPACE and t_shape.facing == "horizontal_down" and no_rotate == False:
+                elif event.key == pygame.K_SPACE and t_shape.facing == "horizontal_down" and no_rotate == False and t_shape.tail[1] < screen_size[1] - one_step:
 
                         t_shape.facing = "vertical_left"
                         t_shape.one[1] += one_step*2
                         t_shape.two[0] += one_step
                         t_shape.two[1] += one_step
                         t_shape.three[0] += one_step*2
-                        t_shape.tail[0] += one_step
-                        t_shape.tail[1] -= one_step
 
                 elif event.key == pygame.K_SPACE and t_shape.facing ==  "vertical_right" and t_shape.tail[0] < screen_size[0] - one_step and no_rotate == False:
 
@@ -971,8 +969,6 @@ while run:
                         t_shape.two[0] += one_step
                         t_shape.two[1] -= one_step
                         t_shape.three[1] -= one_step*2
-                        t_shape.tail[0] -= one_step
-                        t_shape.tail[1] -= one_step
 
 
 
@@ -981,6 +977,7 @@ while run:
         if sorted(intersection(full_line, existing_pieces)) == sorted(full_line):
             for item in full_line:
                 existing_pieces.remove(item)
+            score += 100
             for item in existing_pieces:
                 if item[1] < full_line[0][1]:
                     item[1] += one_step
@@ -990,6 +987,9 @@ while run:
 
 
 
+
     redraw_game_window()
 
 pygame.quit()
+
+print(score)
