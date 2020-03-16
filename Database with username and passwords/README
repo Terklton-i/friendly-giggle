@@ -1,0 +1,6 @@
+Created: February 2020
+
+Requirements: Python3
+
+Discription: Asks user for Log in info. If it is in the database - prints a secret line. If it is a new user - adds his info to the database.
+All the passwords are encrypted.
