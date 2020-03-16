@@ -1,0 +1,32 @@
+{
+    "Users": [
+        {
+            "username": "terk",
+            "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+        },
+        {
+            "username": "terklton",
+            "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+        },
+        {
+            "username": "robert",
+            "password": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+        },
+        {
+            "username": "igor",
+            "password": "8f08fb89c225a58e92455fae25d3df22bda90a094bfc8e0240b8a9bd94318159"
+        },
+        {
+            "username": "vasya",
+            "password": "8f08fb89c225a58e92455fae25d3df22bda90a094bfc8e0240b8a9bd94318159"
+        },
+        {
+            "username": "lola",
+            "password": "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+        },
+        {
+            "username": "lol",
+            "password": "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+        }
+    ]
+}
