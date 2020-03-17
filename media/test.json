@@ -1,0 +1,29 @@
+[
+    {
+        "book_key": "CR!GB6PFRXMSN0S5FDDA8N9VK6BHR3M",
+        "dict_key": "B0053VMNYW",
+        "id": "CR!GB6PFRXMSN0S5FDDA8N9VK6BHR3M:AUMFAAD8AAAA:172662:9",
+        "pos": "AUMFAAD8AAAA:172662",
+        "timestamp": 1510820783663,
+        "usage": "Before I sampled Tony Buzan’s expansive oeuvre (he’s authored or coauthored over 120 books) or any of the self-help books put out by the top mental athletes, Ed wanted me to start my investigation with the classics. ",
+        "word_key": "en:like"
+    },
+    {
+        "book_key": "CR!E7X4P1XXFH1J1EJWZCDZ7KC8DQ7G:EB419B05",
+        "dict_key": "B0053VMNYW",
+        "id": "CR!E7X4P1XXFH1J1EJWZCDZ7KC8DQ7G:EB419B05:113825:12",
+        "pos": "113825",
+        "timestamp": 1509602044357,
+        "usage": "Through his telescopes, Galileo saw that the Sun had its perfection tarnished by ugly black spots. ",
+        "word_key": "en:tarnished"
+    },
+    {
+        "book_key": "CR!GB6PFRXMSN0S5FDDA8N9VK6BHR3M",
+        "dict_key": "B0053VMNYW",
+        "id": "CR!GB6PFRXMSN0S5FDDA8N9VK6BHR3M:AUUFAADEBAAA:174933:9",
+        "pos": "AUUFAADEBAAA:174933",
+        "timestamp": 1510820987932,
+        "usage": "A strong memory was seen as the greatest virtue since it represented the internalization of a universe of external knowledge. ",
+        "word_key": "en:virtue"
+    }
+]
